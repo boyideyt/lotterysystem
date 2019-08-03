@@ -7,6 +7,7 @@
       <arg column="gnum" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="gname" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="greward" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="gpicture" javaType="java.lang.String" jdbcType="VARCHAR" />
     </constructor>
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -68,7 +69,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    gid, gnum, gname, greward
+    gid, gnum, gname, greward, gpicture
   </sql>
   <select id="selectByExample" parameterType="com.talenco.lotterysystem.POJO.GoodExample" resultMap="BaseResultMap">
     select
@@ -102,9 +103,9 @@
   </delete>
   <insert id="insert" parameterType="com.talenco.lotterysystem.POJO.Good">
     insert into good (gid, gnum, gname, 
-      greward)
+      greward, gpicture)
     values (#{gid,jdbcType=INTEGER}, #{gnum,jdbcType=INTEGER}, #{gname,jdbcType=VARCHAR}, 
-      #{greward,jdbcType=VARCHAR})
+      #{greward,jdbcType=VARCHAR}, #{gpicture,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.talenco.lotterysystem.POJO.Good">
     insert into good
@@ -121,6 +122,9 @@
       <if test="greward != null">
         greward,
       </if>
+      <if test="gpicture != null">
+        gpicture,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="gid != null">
@@ -134,6 +138,9 @@
       </if>
       <if test="greward != null">
         #{greward,jdbcType=VARCHAR},
+      </if>
+      <if test="gpicture != null">
+        #{gpicture,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -158,6 +165,9 @@
       <if test="record.greward != null">
         greward = #{record.greward,jdbcType=VARCHAR},
       </if>
+      <if test="record.gpicture != null">
+        gpicture = #{record.gpicture,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -168,7 +178,8 @@
     set gid = #{record.gid,jdbcType=INTEGER},
       gnum = #{record.gnum,jdbcType=INTEGER},
       gname = #{record.gname,jdbcType=VARCHAR},
-      greward = #{record.greward,jdbcType=VARCHAR}
+      greward = #{record.greward,jdbcType=VARCHAR},
+      gpicture = #{record.gpicture,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -185,6 +196,9 @@
       <if test="greward != null">
         greward = #{greward,jdbcType=VARCHAR},
       </if>
+      <if test="gpicture != null">
+        gpicture = #{gpicture,jdbcType=VARCHAR},
+      </if>
     </set>
     where gid = #{gid,jdbcType=INTEGER}
   </update>
@@ -192,8 +206,8 @@
     update good
     set gnum = #{gnum,jdbcType=INTEGER},
       gname = #{gname,jdbcType=VARCHAR},
-      greward = #{greward,jdbcType=VARCHAR}
+      greward = #{greward,jdbcType=VARCHAR},
+      gpicture = #{gpicture,jdbcType=VARCHAR}
     where gid = #{gid,jdbcType=INTEGER}
   </update>
-
 </mapper>

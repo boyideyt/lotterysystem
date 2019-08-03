@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-Hans">
 
 <head>
     <!-- 页面meta -->
@@ -14,145 +14,11 @@
     <link rel="stylesheet" href="../css/style.css">
     <script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
     <script src="../plugins/bootstrap/js/bootstrap.js"></script>
-
     <script src="../plugins/angularjs/angular.min.js"></script>
-    <script type="text/javascript">
-        var app = angular.module('lotterysystem', [])
-        app.controller('lotteryController', function ($scope, $http) {
-
-            $scope.winnerEntity = [];
-            $scope.emplyeeList = [];
-            $scope.winnerList = [];
-            $scope.randomEntity = {};
-            $scope.reloadList = function () {
-                $scope.getWinnerList();
-            };
-
-            // 存储当前的中奖的名单
-            $scope.saveWinner = function () {
-                $http.post('../LotteryController/saveWinner',$scope.winnerEntity).success(
-                    function (response) {
-                        if (response.signal) {
-                            $scope.emplyeeList.removeAll($scope.winnerEntity);
-                            $scope.reloadList();
-                        } else {
-                            alert(response.message);
-                        }
-                    }
-                );
-            };
-
-            // 获取右侧已中奖名单
-            $scope.getWinnerList = function () {
-                $http.get('../WinningResultController/getAll').success(
-                    function (response) {
-                        // emplyeelist 存储全部员工的容器
-                        $scope.winnerList = response;
-                    }
-                );
-            };
-
-            // 获取
-            $scope.getAll = function () {
-                $scope.getAllEmp();
-                $scope.getWinningSetting();
-                $scope.getWinnerList();
-
-            };
-            // 获取左侧已全部人员名单
-            $scope.getAllEmp = function () {
-                $http.get('../EmployeeController/getAll').success(
-                    function (response) {
-                        // emplyeelist 存储全部员工的容器
-                        $scope.emplyeeList = response;
-                    }
-                );
-            };
-
-            // 获取奖品清单
-            $scope.getWinningSetting = function () {
-                $http.get('../LotteryController/getWinningSetting').success(
-                    function (response) {
-                        // emplyeelist 存储全部员工的容器
-                        $scope.winningSetting = response;
-                    }
-                );
-            };
-
-
-            // 开始抽奖
-            $scope.random = function () {
-                $scope.myDate=new Date();
-                $scope.randomEntity.employeeList = $scope.emplyeeList;
-                $http.post('../LotteryController/random', $scope.randomEntity).success(
-                    function (response) {
-                        $scope.winnerEntity = response;
-                    }
-                );
-            };
-
-            // 取消本次抽奖结果
-            $scope.cancel = function () {
-                $scope.winnerEntity = []
-            };
-            // 取消全部抽奖结果
-            $scope.allCancel = function () {
-                $scope.winnerEntity = [];
-                $scope.getAllEmp();
-                $scope.delAllWinner();
-            };
-
-            $scope.selectIds = [];//用户勾选的id集合
-
-            //选中数组的增减
-            $scope.updateSelection = function ($event, id) {
-                if ($event.target.checked) {
-                    $scope.selectIds.push(id)
-                } else {
-                    $scope.selectIds.splice($scope.selectIds.indexOf(id), 1);
-                }
-            };
-
-            // 删除选择的中奖信息(按奖品gid)
-            $scope.dele = function () {
-                $http.post('../LotteryController/delete?ids=' + $scope.selectIds).success(
-                    function (response) {
-                        if (response.signal) {
-                            $scope.reloadList();
-                        } else {
-                            alert(response.message);
-                        }
-                    }
-                );
-            };
-
-            // 删除选择的中奖信息(按奖品gid)
-            $scope.deleOne = function (id) {
-                ids = [id];
-                $http.post('../LotteryController/delete?ids=' + ids).success(
-                    function (response) {
-                        if (response.signal) {
-                            $scope.reloadList();
-                        } else {
-                            alert(response.message);
-                        }
-                    }
-                );
-            };
-            // 删除全部中奖信息(按奖品gid)
-            $scope.delAllWinner = function () {
-                $http.post('../WinningResultController/deleteAll').success(
-                    function (response) {
-                        if (response.signal) {
-                            $scope.reloadList();
-                        } else {
-                            alert(response.message);
-                        }
-                    }
-                );
-            }
-        })
-    </script>
+    <script src="../js/controller/lottery_controller.js"></script>
+    <script src="../js/service/lottery_service.js"></script>
+    <script src="../js/service/employee_service.js"></script>
+    <script src="../js/service/winningResult_service.js"></script>
 </head>
 
 
@@ -206,16 +72,19 @@
         </nav>
     </div>
     <!--主界面,抽奖-->
-    <div class="col-md-6" role="main">
-        <div>
-            <select ng-model="randomEntity.gid">
+    <div class="row col-md-6" role="main">
+        <div class="col-md-4">
+            <select ng-model="randomEntity.gid" class="form-control">
                 <option ng-repeat="good in winningSetting.gset" value="{{good.gid}}">{{good.gname}}
             </select>
-            <button ng-click="random()">抽奖</button>
-            <button ng-click="saveWinner()">确认保存</button>
-            <button ng-click="cancel()">取消</button>
-            <button ng-click="allCancel()">全部取消</button>
-
+        </div>
+        <div class="col-md-8">
+            <button ng-click="random()" class="btn btn-primary">抽奖</button>
+            <button ng-click="saveWinner()" class="btn btn-success">确认保存</button>
+            <button ng-click="cancel()" class="btn btn-warning">取消</button>
+            <button ng-click="allCancel()" class="btn btn-danger">全部取消</button>
+        </div>
+        <div>
             <table id="dataList" class="table table-bordered table-striped table-hover dataTable">
                 <thead>
                 <tr>
@@ -236,7 +105,6 @@
                 </tr>
                 </tbody>
             </table>
-
         </div>
     </div>
     <!--中奖名单-->
@@ -244,12 +112,12 @@
         <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix-top">
             <ul class="nav bs-docs-sidenav">
 
-                <li class="" ng-repeat="entity in winnerList">
-                    <a href="#overview">{{entity.gid}}</a>
+                <li style="text-align:center" class="" ng-repeat="entity in winnerList">
+                    <a><h4>{{entity.name}}</h4></a>
                     <ul class="nav">
-                        <li class=""><a href="#overview-doctype">{{entity.empno}}</a></li>
-                        <li class=""><a href="#overview-type-links">{{entity.ename}}</a></li>
-                        <li class=""><a href="#overview-normalize">{{entity.wintime}}</a></li>
+                        <li href="#overview-doctype" ng-repeat="winningResult in entity.winningResultList">
+                            {{winningResult.ename}}
+                        </li>
                     </ul>
                 </li>
             </ul>

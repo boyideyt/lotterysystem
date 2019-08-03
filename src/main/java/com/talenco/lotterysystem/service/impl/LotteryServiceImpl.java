@@ -3,14 +3,12 @@ package com.talenco.lotterysystem.service.impl;
 import com.talenco.lotterysystem.POJO.*;
 import com.talenco.lotterysystem.dao.EmployeeMapper;
 import com.talenco.lotterysystem.dao.GoodMapper;
-import com.talenco.lotterysystem.dao.LotteryDao;
 import com.talenco.lotterysystem.dao.WinningResultMapper;
+import com.talenco.lotterysystem.entity.WinningSetting;
 import com.talenco.lotterysystem.service.LotteryService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 
@@ -46,7 +44,7 @@ public class LotteryServiceImpl implements LotteryService {
             WinningResult winningResult = new WinningResult();
 
             // 录入中奖者的编号，姓名，中奖结果（中奖id）
-
+            winningResult.setWintime(new Date());
             winningResult.setEmpno(winner.getEmpno());
             winningResult.setEname(winner.getEname());
             winningResult.setGid(gid);

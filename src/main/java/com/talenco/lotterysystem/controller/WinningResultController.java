@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.talenco.lotterysystem.POJO.Good;
 import com.talenco.lotterysystem.POJO.WinningResult;
 import com.talenco.lotterysystem.entity.Result;
+import com.talenco.lotterysystem.entity.WinningResultSetting;
 import com.talenco.lotterysystem.service.GoodService;
 import com.talenco.lotterysystem.service.WinningResultService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,8 +29,8 @@ public class WinningResultController {
 
     @RequestMapping("/getAll")
     @ResponseBody
-    public List<WinningResult> getAll() {
-        return (List<WinningResult>) JSONObject.toJSON(this.winningResultService.getAll());
+    public List<WinningResultSetting> getAll() {
+        return winningResultService.getAllByGid();
     }
 
     @RequestMapping("/getOne")

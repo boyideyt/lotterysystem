@@ -1,5 +1,6 @@
-package com.talenco.lotterysystem.POJO;
+package com.talenco.lotterysystem.entity;
 
+import com.talenco.lotterysystem.POJO.Good;
 import lombok.*;
 
 import java.util.ArrayList;

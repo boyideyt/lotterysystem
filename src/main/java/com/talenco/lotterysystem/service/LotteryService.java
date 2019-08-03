@@ -2,7 +2,7 @@ package com.talenco.lotterysystem.service;
 
 import com.talenco.lotterysystem.POJO.Employee;
 import com.talenco.lotterysystem.POJO.WinningResult;
-import com.talenco.lotterysystem.POJO.WinningSetting;
+import com.talenco.lotterysystem.entity.WinningSetting;
 
 import java.util.List;
 

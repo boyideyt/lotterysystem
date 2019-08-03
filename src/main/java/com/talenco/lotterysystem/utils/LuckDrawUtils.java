@@ -3,13 +3,12 @@ package com.talenco.lotterysystem.utils;
 import com.talenco.lotterysystem.POJO.Employee;
 import com.talenco.lotterysystem.POJO.Good;
 import com.talenco.lotterysystem.POJO.WinningResult;
-import com.talenco.lotterysystem.POJO.WinningSetting;
+import com.talenco.lotterysystem.entity.WinningSetting;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.TimeZone;
+import java.util.List;
 
 public class LuckDrawUtils {
 
@@ -38,7 +37,8 @@ public class LuckDrawUtils {
     }
 
 
-    public static WinningResult start(ArrayList<Employee> employees, WinningSetting winningSetting) {
+    public static List<WinningResult> start(ArrayList<Employee> employees, WinningSetting winningSetting) {
+        ArrayList<WinningResult> winningResults = new ArrayList<>();
 
         ArrayList<Good> gset = winningSetting.getGset();
         // 有多少个奖项抽多少次
@@ -47,34 +47,28 @@ public class LuckDrawUtils {
             for (int i = 0; i < good.getGnum(); i++) {
                 int size = employees.size();
                 int random = (int) (Math.random() * size);
-                System.out.println(good.getGname() + good.getGreward() + employees.get(random));
+                Employee employee = employees.get(random);
+                WinningResult winningResult = new WinningResult(employee.getEmpno(), new Date(), employee.getEname(), good.getGid(), good.getGname(), good.getGreward());
+                winningResults.add(winningResult);
                 employees.remove(random);
             }
         }
-
-
-        WinningResult winningResult = new WinningResult();
-        return winningResult;
+        return winningResults;
     }
 
     public static void main(String[] args) throws ParseException {
-//        ArrayList<Good> goods = new ArrayList<>();
-//        goods.add(new Good(1, 1, "特等奖", "手机"));
-//        goods.add(new Good(2, 2, "一等奖", "耳机"));
-//        goods.add(new Good(3, 3, "二等奖", "大购物卡"));
-//        goods.add(new Good(4, 5, "三等奖", "小购物卡"));
-//        // 获取名单
-//        ArrayList<Employee> employees = GenerateLists();
-//        // 获取奖项设置
-//        WinningSetting winningSetting = new WinningSetting(goods.size(), goods);
-//        //开始抽奖
-//        start(employees, winningSetting);
+        ArrayList<Good> goods = new ArrayList<>();
+        goods.add(new Good(1, 1, "特等奖", "手机",null));
+        goods.add(new Good(2, 2, "一等奖", "耳机",null));
+        goods.add(new Good(3, 3, "二等奖", "大购物卡",null));
+        goods.add(new Good(4, 5, "三等奖", "小购物卡",null));
+        // 获取名单
+        ArrayList<Employee> employees = GenerateLists();
+        // 获取奖项设置
+        WinningSetting winningSetting = new WinningSetting(goods.size(), goods);
+        //开始抽奖
+        List<WinningResult> start = start(employees, winningSetting);
+        System.out.println(start);
 
-        Date date = new Date();
-        SimpleDateFormat df2 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-        df2.setTimeZone(TimeZone.getTimeZone("UTC"));
-        String format = df2.format(date);
-        Date date2 = df2.parse(format);
-        System.out.println(date2);
     }
 }

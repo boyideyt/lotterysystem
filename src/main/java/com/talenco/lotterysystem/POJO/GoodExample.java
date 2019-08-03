@@ -363,6 +363,76 @@ public class GoodExample {
             addCriterion("greward not between", value1, value2, "greward");
             return (Criteria) this;
         }
+
+        public Criteria andGpictureIsNull() {
+            addCriterion("gpicture is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andGpictureIsNotNull() {
+            addCriterion("gpicture is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andGpictureEqualTo(String value) {
+            addCriterion("gpicture =", value, "gpicture");
+            return (Criteria) this;
+        }
+
+        public Criteria andGpictureNotEqualTo(String value) {
+            addCriterion("gpicture <>", value, "gpicture");
+            return (Criteria) this;
+        }
+
+        public Criteria andGpictureGreaterThan(String value) {
+            addCriterion("gpicture >", value, "gpicture");
+            return (Criteria) this;
+        }
+
+        public Criteria andGpictureGreaterThanOrEqualTo(String value) {
+            addCriterion("gpicture >=", value, "gpicture");
+            return (Criteria) this;
+        }
+
+        public Criteria andGpictureLessThan(String value) {
+            addCriterion("gpicture <", value, "gpicture");
+            return (Criteria) this;
+        }
+
+        public Criteria andGpictureLessThanOrEqualTo(String value) {
+            addCriterion("gpicture <=", value, "gpicture");
+            return (Criteria) this;
+        }
+
+        public Criteria andGpictureLike(String value) {
+            addCriterion("gpicture like", value, "gpicture");
+            return (Criteria) this;
+        }
+
+        public Criteria andGpictureNotLike(String value) {
+            addCriterion("gpicture not like", value, "gpicture");
+            return (Criteria) this;
+        }
+
+        public Criteria andGpictureIn(List<String> values) {
+            addCriterion("gpicture in", values, "gpicture");
+            return (Criteria) this;
+        }
+
+        public Criteria andGpictureNotIn(List<String> values) {
+            addCriterion("gpicture not in", values, "gpicture");
+            return (Criteria) this;
+        }
+
+        public Criteria andGpictureBetween(String value1, String value2) {
+            addCriterion("gpicture between", value1, value2, "gpicture");
+            return (Criteria) this;
+        }
+
+        public Criteria andGpictureNotBetween(String value1, String value2) {
+            addCriterion("gpicture not between", value1, value2, "gpicture");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {
